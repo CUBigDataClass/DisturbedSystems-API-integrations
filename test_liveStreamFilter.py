@@ -1,7 +1,7 @@
 import tweepy
 # from textblob import TextBlob
 import json
-
+import requests
 # Read and write (Access level)
 
 consumer_key = ""
@@ -51,8 +51,15 @@ class StreamListener(tweepy.StreamListener):
         if coords is not None:
              coords = json.dumps(coords)
 
-        print (name)
-        print (loc, coords, geo)
+        data = {'name': name, 
+                'location':loc}
+
+        print (name, '  :  ' , loc, '\n')
+
+        API_ENDPOINT = 'http://localhost:8080/'
+        # sending post request and saving response as response object 
+        r = requests.post(url = API_ENDPOINT, data = data) 
+        print("The URL is:%s"% r.text) 
 
     def on_error(self, status_code):
         if status_code == 420:
