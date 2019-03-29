@@ -45,28 +45,31 @@ class StreamListener(tweepy.StreamListener):
         # blob = TextBlob(text)
         # sent = blob.sentiment
 
-        if geo is not None:
-             geo = json.dumps(geo)
+        # if geo is not None:
+        #      geo = json.dumps(geo)
 
-        if coords is not None:
-             coords = json.dumps(coords)
+        # if coords is not None:
+        #      coords = json.dumps(coords)
 
-        data = {'name': name, 
-                'location':loc}
+        # print (status.country_code)
+
+        # data to be sent to api 
+        data = {'name': name,
+                'occupation':loc}
 
         print (name, '  :  ' , loc, '\n')
 
-        API_ENDPOINT = 'http://localhost:8080/'
+        API_ENDPOINT = 'http://localhost:5000/user/'+name
         # sending post request and saving response as response object 
         r = requests.post(url = API_ENDPOINT, data = data) 
-        print("The URL is:%s"% r.text) 
+        print("The URL is:%s"% r.text)
 
     def on_error(self, status_code):
+        print (status_code)
         if status_code == 420:
-        	print ('Something is wrong!')
-        	return False
+            print ('Something is wrong!')
+            return False
             #returning False in on_data disconnects the stream
-
 
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
