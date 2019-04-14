@@ -28,6 +28,8 @@ OH" : 0, "US-OK" : 0, "US-OR" : 0, "US-PA" : 0, "US-RI" : 0, "US-SC" : 0, "US-SD
         if name == '':
             name = 'eminem'
 
+        retJ = []
+
         count = 0
         for tweet in tweepy.Cursor(api.search,q=name, count=100, lang="en", since="2014-04-03").items(6000):
             if tweet.place is not None:
@@ -41,8 +43,9 @@ OH" : 0, "US-OK" : 0, "US-OR" : 0, "US-PA" : 0, "US-RI" : 0, "US-SC" : 0, "US-SD
             if count > 100:
                 break
 
-        # print (sCounts)
-        return (sCounts)
+        for k, v in zip(sCounts.keys(), sCounts.values()):
+            retJ.append({"id" : k, "value" : v})
+        return (retJ)
 
 # Create a URL route in our application for "/"
 @app.route('/')
