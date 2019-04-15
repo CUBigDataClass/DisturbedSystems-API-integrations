@@ -1,2 +1,2 @@
 # DisturbedSystems-TweetFetcher
-Fetching tweets using the twitter API for real-time analysis!
+Provides API services from Twitter, Spotify and PredictHQ for the main App!
