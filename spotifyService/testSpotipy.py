@@ -1,25 +1,20 @@
-import spotipy
-import spotipy.util as util
-# import spotipy.util i
+import requests
+import json
 
-token = util.prompt_for_user_token("onfld0wcw4jmrobqasq9gl0xj","user-library-read",client_id='e5dc70c1a984472f888c93032327a9f5',client_secret='22c2782e5e7f45c6898dcb8bb34a4ee0',redirect_uri='localhost')
+url = "https://api.spotify.com/v1/search"
 
-spotify = spotipy.Spotify()
-results = spotify.search(q='artist:' + "Malone", type='artist')
-print results
+params = {
+	"query" : "Post Malone",
+	"type" : "artist"
+}
 
-# import spotipy
-# import sys
+headers = {
+	"Accept" : "application/json",
+	"Content-Type": "application/json",
+	"Authorization": "Bearer BQBp76ck5TB_m3f9_rBDat0H6LtUXlICKS1A4oyUrFXpgnsJb8sNqcphCBPcB10nFnyRjboFsjNH32QUrupBT-g3anm_EqP3nqzhdCLzBmZxChSvOcr78JD6_oktzK4KEWss4g_SLCP16B0Bz1fO2ZV1w74txZdvog",
+	"q" : "Post Malone"
+}
 
-# spotify = spotipy.Spotify()
+req = requests.get(url,headers=headers, params = params)
 
-# if len(sys.argv) > 1:
-#     name = ' '.join(sys.argv[1:])
-# else:
-#     name = 'Radiohead'
-
-# results = spotify.search(q='artist:' + name, type='artist')
-# items = results['artists']['items']
-# if len(items) > 0:
-#     artist = items[0]
-#     print artist['name'], artist['images'][0]['url']
+print (req.json())
