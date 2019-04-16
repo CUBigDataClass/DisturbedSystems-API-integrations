@@ -16,7 +16,7 @@ class Artist(Resource):
 		url = "https://api.spotify.com/v1/search"
 
 		params = {
-			"query" : "pink floyd",
+			"query" : name,
 			"type" : "artist",
 			"limit" : 1
 		}
