@@ -1,0 +1,6 @@
+predicthq
+reverse_geocoder
+flask
+flask_restful
+stateplane
+tweepy
