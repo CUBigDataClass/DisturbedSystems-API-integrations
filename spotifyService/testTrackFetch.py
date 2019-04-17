@@ -12,7 +12,7 @@ token = credentials.get_access_token()
 url = "https://api.spotify.com/v1/search"
 
 params = {
-	"query" : "sunflower",
+	"query" : "adventures of rain dance maggie",
 	"type" : "track",
 	"limit" : 1
 }
@@ -31,16 +31,38 @@ if "tracks" in sData:
 	tracks = sData["tracks"]["items"]
 	if len(tracks) != 0:
 		data = tracks[0]
-# 		img1 = ""
-# 		spotifyURL = ""
-# 		if len(data["images"]) != 0:
-# 			img1 = data["images"][0]
-# 		if "spotify" in data["external_urls"]:
-# 			spotifyURL = data["external_urls"]["spotify"]
-# 		artist = {
-# 			"spotifyURL" : spotifyURL,
-# 			"spotifyPopularity" : str(data["popularity"]),
-# 			"spotifyImage" : img1,
-# 		}
-	for k,v in zip(data.keys(), data.values()):
-		print (k, v)
+		tid = data["id"]
+		eid = data["external_ids"]
+		if "isrc" in eid:
+			eid = data["external_ids"]["isrc"]
+		else:
+			eid = "N/A"
+		duration = data["duration_ms"]
+		popularity = data["popularity"]
+		fullName = data["name"]
+
+		artistList = data["artists"]
+
+		album = data["album"]
+		albumName = album["name"]
+		albumRelease = album["release_date"]
+		aid = album["id"]
+		albumArt = ""
+		spotifyURL = ""
+		if len(album["images"]) != 0:
+			albumArt = album["images"][0]["url"]
+		if "spotify" in album["external_urls"]:
+			spotifyURL = album["external_urls"]["spotify"]
+
+
+		track = {
+			"trackID" : tid,
+			"isrc" : eid,
+			"duration" : duration,
+			"popularity" : popularity,
+			"fullName" : fullName,
+			"albumImage" : albumArt,
+			"albumURL" : spotifyURL,
+			"albumID" : aid
+		}
+		print track
