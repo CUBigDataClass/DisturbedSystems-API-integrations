@@ -43,7 +43,7 @@ class Artist(Resource):
 				artist = {
 					"spotifyURL" : spotifyURL,
 					"spotifyPopularity" : str(data["popularity"]),
-					"spotifyImage" : img1,
+					"spotifyImage" : img1["url"],
 				}
 		return (artist)
 
