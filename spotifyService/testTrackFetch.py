@@ -63,18 +63,35 @@ if "tracks" in sData:
 			"fullName" : fullName,
 			"albumImage" : albumArt,
 			"albumURL" : spotifyURL,
-			"albumID" : aid
+			"albumID" : aid,
+			"energy":"",
+			"liveness":"",
+			"tempo":"",
+			"speechiness":"",
+			"acousticness":"",
+			"instrumentalness":"",
+			"danceability":"",
+			"loudness":"",
+			"valence":"",
+			"preview_url":""
 		}
 
 		if tid:
 			url = "https://api.spotify.com/v1/audio-features/"+track["trackID"]
 			req = requests.get(url,headers=headers)
 			tData = req.json()
-
-			print (tData)
+			track["energy"] = tData["energy"]
+			track["liveness"] = tData["liveness"]
+			track["tempo"] = tData["tempo"]
+			track["speechiness"] = tData["speechiness"]
+			track["acousticness"] = tData["acousticness"]
+			track["instrumentalness"] = tData["instrumentalness"]
+			track["danceability"] = tData["danceability"]
+			track["loudness"] = tData["loudness"]
+			track["valence"] = tData["valence"]
 
 			url = "https://api.spotify.com/v1/tracks/"+track["trackID"]
 			req = requests.get(url,headers=headers)
 			tData = req.json()
-
-		print (tracks)
+			track["preview_url"] = tData["preview_url"]
+		print (track)
