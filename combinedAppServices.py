@@ -76,15 +76,44 @@ class Track(Resource):
 
 
 				track = {
-					"trackID" : tid,
-					"isrc" : eid,
-					"duration" : duration,
-					"popularity" : popularity,
-					"fullName" : fullName,
-					"albumImage" : albumArt,
-					"albumURL" : spotifyURL,
-					"albumID" : aid
+				"trackID" : tid,
+				"isrc" : eid,
+				"duration" : duration,
+				"popularity" : popularity,
+				"fullName" : fullName,
+				"albumImage" : albumArt,
+				"albumURL" : spotifyURL,
+				"albumID" : aid,
+				"energy":"",
+				"liveness":"",
+				"tempo":"",
+				"speechiness":"",
+				"acousticness":"",
+				"instrumentalness":"",
+				"danceability":"",
+				"loudness":"",
+				"valence":"",
+				"preview_url":""
 				}
+
+				if tid:
+					url = "https://api.spotify.com/v1/audio-features/"+track["trackID"]
+					req = requests.get(url,headers=headers)
+					tData = req.json()
+					track["energy"] = tData["energy"]
+					track["liveness"] = tData["liveness"]
+					track["tempo"] = tData["tempo"]
+					track["speechiness"] = tData["speechiness"]
+					track["acousticness"] = tData["acousticness"]
+					track["instrumentalness"] = tData["instrumentalness"]
+					track["danceability"] = tData["danceability"]
+					track["loudness"] = tData["loudness"]
+					track["valence"] = tData["valence"]
+
+					url = "https://api.spotify.com/v1/tracks/"+track["trackID"]
+					req = requests.get(url,headers=headers)
+					tData = req.json()
+					track["preview_url"] = tData["preview_url"]
 		return track
 
 class Artist(Resource):
