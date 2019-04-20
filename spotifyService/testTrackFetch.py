@@ -4,8 +4,8 @@ import json
 
 
 credentials = oauth2.SpotifyClientCredentials(
-        client_id="e5dc70c1a984472f888c93032327a9f5",
-        client_secret="22c2782e5e7f45c6898dcb8bb34a4ee0")
+        client_id="",
+        client_secret="")
 
 token = credentials.get_access_token()
 
@@ -65,4 +65,16 @@ if "tracks" in sData:
 			"albumURL" : spotifyURL,
 			"albumID" : aid
 		}
-		print track
+
+		if tid:
+			url = "https://api.spotify.com/v1/audio-features/"+track["trackID"]
+			req = requests.get(url,headers=headers)
+			tData = req.json()
+
+			print (tData)
+
+			url = "https://api.spotify.com/v1/tracks/"+track["trackID"]
+			req = requests.get(url,headers=headers)
+			tData = req.json()
+
+		print (tracks)
