@@ -4,3 +4,6 @@ flask
 flask_restful
 stateplane
 tweepy
+nltk
+yaml
+pyspark
