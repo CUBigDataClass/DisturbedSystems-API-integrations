@@ -7,8 +7,9 @@ import json
 from kafka import KafkaProducer
 
 
-KAFKA_CLUSTER = []
-KAFKA_TOPIC = ''
+
+KAFKA_CLUSTER = ['10.166.0.2:5000', '10.166.0.3:5000', '10.166.0.4:5000']
+KAFKA_TOPIC = 'tweets'
 
 app = Flask(__name__)
 api = Api(app)
@@ -39,7 +40,7 @@ class User(Resource):
         for tweet in tweepy.Cursor(api.search,q=name, count=100, lang="en", since="2014-04-03").items(6000):
 
             # Push to producer
-            self.producer.send(KAFKA_TOPIC, value=tweet.text)
+            self.producer.send(KAFKA_TOPIC, value=tweet.text.encode('utf-16be'))
 
             if tweet.place is not None:
                 if tweet.place.country_code == u'US':
