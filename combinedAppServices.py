@@ -76,6 +76,7 @@ class Track(Resource):
 
 
 				track = {
+				"albumName" : albumName,
 				"trackID" : tid,
 				"isrc" : eid,
 				"duration" : duration,

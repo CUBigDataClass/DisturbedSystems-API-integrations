@@ -62,7 +62,13 @@ class Track(Resource):
 					spotifyURL = album["external_urls"]["spotify"]
 
 
+				artistNameSpotify = ""
+				if len(artistList) != 0:
+					artistNameSpotify = artistList[0]["name"]
+
 				track = {
+				"albumName" : albumName,
+				"artistNameSpotify" : artistNameSpotify,
 				"trackID" : tid,
 				"isrc" : eid,
 				"duration" : duration,
