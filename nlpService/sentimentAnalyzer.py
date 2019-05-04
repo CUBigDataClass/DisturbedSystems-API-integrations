@@ -124,7 +124,7 @@ def home():
 
 if __name__ == '__main__':
 
-    tweet_consumer = KafkaConsumer(bootstrap_servers=KAFKA_CLUSTER)
+    tweet_consumer = KafkaConsumer(KAFKA_TOPIC, bootstrap_servers=KAFKA_CLUSTER)
 
     api.add_resource(Donut, "/donut/<string:name>", resource_class_args=(tweet_consumer,))
 
