@@ -10,9 +10,10 @@ import reverse_geocoder as rg
 from flask import Flask, render_template
 from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS
-from kafka import KafkaProducer
 
 import json
+
+from kafka import KafkaProducer
 
 KAFKA_CLUSTER = ['10.166.0.2:5000', '10.166.0.3:5000', '10.166.0.4:5000']
 KAFKA_TOPIC = 'tweets'
@@ -77,12 +78,16 @@ class Track(Resource):
 					albumArt = album["images"][0]["url"]
 				if "spotify" in album["external_urls"]:
 					spotifyURL = album["external_urls"]["spotify"]
-
+                                artistNameSpotify = ""
+				if len(artistList) != 0:
+					artistNameSpotify = artistList[0]["name"]
 
 				track = {
-				"albumName" : albumName,
+                                "artistNameSpotify" : artistNameSpotify,
 				"trackID" : tid,
 				"isrc" : eid,
+                                "albumName" : albumName,
+                                "albumRelease" : albumRelease,
 				"duration" : duration,
 				"popularity" : popularity,
 				"fullName" : fullName,
@@ -120,6 +125,7 @@ class Track(Resource):
 					tData = req.json()
 					track["preview_url"] = tData["preview_url"]
 		return track
+
 
 class Artist(Resource):
 	def get(self, name):
@@ -244,12 +250,16 @@ def home():
     """
     return render_template('home.html')
 
+
+
 if __name__ == '__main__':
+
 	tweet_producer = KafkaProducer(bootstrap_servers=KAFKA_CLUSTER)
 
-	api.add_resource(User, "/user/<string:name>", resource_class_args=(tweet_producer,))
+    api.add_resource(User, "/user/<string:name>", resource_class_args=(tweet_producer,))
 	api.add_resource(Event, "/event/<string:name>")
 	api.add_resource(Track, "/track/<string:name>")
 	api.add_resource(Artist, "/artist/<string:name>")
+
 
     app.run(host='0.0.0.0')
