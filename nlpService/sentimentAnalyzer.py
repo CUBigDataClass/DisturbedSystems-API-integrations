@@ -91,18 +91,23 @@ class Donut(Resource):
         
         testSentences = ["Manjunath is a very good boy","I think they suck to the core!","I would throw up if her song comes up","This was so bad that I actually liked it","The concert was pretty cold and we had to get drunk to enjoy the time","A decent artist, decent talent","OMG OMG OMG post malone just dropped a new album!"]
         
-        cc = 0
+        cc = -1
         for sentence in self.consumer:
             cc += 1
             try:
-                ss = sid.polarity_scores(sentence)
-                retJ[(cc%7)][0]["value"] = ss["pos"]
-                retJ[(cc%7)][1]["value"] = ss["neg"]
-                retJ[(cc%7)][2]["value"] = ss["neu"]
+                ss = sid.polarity_scores(sentence.value.decode('utf-16be'))
+                retJ[(cc%7)+1][0]["value"] += ss["pos"]
+                retJ[(cc%7)+1][1]["value"] += ss["neg"]
+                retJ[(cc%7)+1][2]["value"] += ss["neu"]
 
             except KeyError:
                 return retJ, 200
-            if cc == 2000:
+
+            if cc == 2000 - 1:
+                for kk in range(1,8):
+                    retJ[(kk)][0]["value"] /= 2000
+                    retJ[(kk)][1]["value"] /= 2000
+                    retJ[(kk)][2]["value"] /= 2000
                 break
 
         return retJ, 200
